@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OscarCyber | Operator Access</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #071016;
+      color: #eaffdf;
+      font-family: Arial, sans-serif;
+    }
+    .panel {
+      width: min(92%, 430px);
+      padding: 32px;
+      border: 1px solid #a3ff3f;
+      background: #101b22;
+      box-shadow: 0 0 35px #a3ff3f18;
+    }
+    h1 { color: #a3ff3f; text-align: center; }
+    p { color: #aab8bd; text-align: center; }
+    label { display: block; margin-top: 16px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      background: #071016;
+      border: 1px solid #34454d;
+      color: white;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: #a3ff3f;
+      color: #071016;
+      border: 0;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .secondary {
+      background: transparent;
+      border: 1px solid #a3ff3f;
+      color: #a3ff3f;
+    }
+    #status { margin-top: 18px; font-size: 14px; }
+    .hidden { display: none; }
+    a { color: #a3ff3f; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>OSCARCYBER</h1>
+    <p>CREATE YOUR OPERATOR ACCOUNT</p>
+
+    <form id="signupForm">
+      <label>Operator Callsign</label>
+      <input id="username" maxlength="20" required
+             placeholder="Choose your username">
+
+      <label>Email Address</label>
+      <input id="signupEmail" type="email" required
+             placeholder="you@example.com">
+
+      <label>Password</label>
+      <input id="signupPassword" type="password"
+             minlength="8" required placeholder="At least 8 characters">
+
+      <button type="submit">CREATE ACCOUNT</button>
+    </form>
+
+    <form id="loginForm" class="hidden">
+      <label>Email Address</label>
+      <input id="loginEmail" type="email" required>
+
+      <label>Password</label>
+      <input id="loginPassword" type="password" required>
+
+      <button type="submit">SIGN IN</button>
+    </form>
+
+    <button class="secondary" id="switchMode" type="button">
+      ALREADY HAVE AN ACCOUNT? SIGN IN
+    </button>
+
+    <button class="secondary hidden" id="logout" type="button">
+      SIGN OUT
+    </button>
+
+    <p id="status" role="status" aria-live="polite"></p>
+    <p><a href="index.html">← Return to Arena</a></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

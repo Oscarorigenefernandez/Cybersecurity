@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects | OscarCyber</title>
+<style>
+:root{--bg:#080b09;--panel:#101811;--green:#39ff14;--white:#f4f7f3;--muted:#929b94;--border:#253128}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--white);font-family:Arial,sans-serif;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.container{width:min(1100px,90%);margin:auto}
+header{border-bottom:1px solid var(--border);padding:20px 0}
+nav{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+nav strong{letter-spacing:1px}nav strong span,h1 span{color:var(--green)}
+nav a{color:var(--muted);font-size:.9rem}
+.hero{padding:100px 0 65px}
+.label{color:var(--green);font-size:.75rem;letter-spacing:3px}
+h1{font-size:clamp(2.8rem,7vw,5rem);line-height:1.1;margin:15px 0}
+p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding-bottom:100px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:30px;transition:.2s}
+.card:hover{border-color:var(--green);transform:translateY(-4px)}
+.number{color:var(--green);font: .8rem monospace;margin-bottom:20px}
+h2{font-size:1.35rem;margin-bottom:12px}
+.tags{color:var(--green);font-size:.78rem;margin-top:20px}
+.card a{display:inline-block;color:var(--green);margin-top:22px}
+footer{border-top:1px solid var(--border);padding:25px 0;color:var(--muted);font-size:.8rem}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.hero{padding-top:70px}}
+</style>
+</head>
+<body>
+
+<nav class="oc-site-nav">
+  <a class="oc-brand" href="index.html">⌘ OSCAR<span>CYBER</span></a>
+  <div class="oc-links">
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="games.html">Games</a>
+    <a href="game.html">Play Game</a>
+  </div>
+</nav>
+<style>
+.oc-site-nav {
+  position:relative;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  padding:17px 5%;
+  background:#080d12;
+  border-bottom:1px solid rgba(57,255,20,.2);
+  font-family:Arial,sans-serif;
+}
+.oc-site-nav a {
+  color:#dce9df;
+  text-decoration:none;
+  font-size:12px;
+  transition:.2s;
+}
+.oc-site-nav a:hover { color:#39ff14; }
+.oc-site-nav .oc-brand {
+  color:white;
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:16px;
+}
+.oc-site-nav .oc-brand span { color:#39ff14; }
+.oc-links { display:flex;gap:20px;flex-wrap:wrap; }
+@media(max-width:520px) {
+  .oc-site-nav { align-items:flex-start;flex-direction:column; }
+  .oc-links { gap:14px; }
+}
+</style>
+
+<header><nav class="container">
+<a href="index.html"><strong>OSCAR<span>.ORIGENE</span></strong></a>
+<div><a href="index.html">Home</a>　<a href="games.html">Games</a>　<a href="index.html#contact">Contact</a></div>
+</nav></header>
+<main class="container">
+<section class="hero">
+<p class="label">01 / PROJECT PORTFOLIO</p>
+<h1>Ideas into <span>reality.</span></h1>
+<p>Practical projects documenting my journey in Python, programming, networking, and cybersecurity.</p>
+</section>
+<section class="grid">
+<article class="card">
+<p class="number">PROJECT_001 / PYTHON</p>
+<h2>Network Scanner</h2>
+<p>A Python TCP port scanner that checks selected ports on localhost and reports reachable services.</p>
+<div class="tags">PYTHON · SOCKETS · NETWORKING</div>
+<a href="https://github.com/Oscarorigenefernandez/Cybersecurity" target="_blank" rel="noopener">View GitHub ↗</a>
+</article>
+<article class="card">
+<p class="number">PROJECT_002 / WEB APP</p>
+<h2>Weather Application</h2>
+<p>A weather app project exploring Python, Flask, APIs, and frontend development.</p>
+<div class="tags">PYTHON · FLASK · API</div>
+<a href="https://github.com/Oscarorigenefernandez" target="_blank" rel="noopener">Explore GitHub ↗</a>
+</article>
+<article class="card">
+<p class="number">PROJECT_003 / IN DEVELOPMENT</p>
+<h2>Phishing Email Analyzer</h2>
+<p>A planned tool to inspect suspicious email indicators and teach users about phishing risks.</p>
+<div class="tags">PYTHON · EMAIL SECURITY</div>
+<span class="tags">COMING SOON</span>
+</article>
+<article class="card">
+<p class="number">PROJECT_004 / FUTURE BUILD</p>
+<h2>More projects coming</h2>
+<p>New experiments, coding projects, and cybersecurity labs will be documented here as I build them.</p>
+<div class="tags">LEARNING · BUILDING · IMPROVING</div>
+</article>
+</section>
+</main>
+<footer><div class="container">OSCARCYBER · THINK. BUILD. SECURE.</div></footer>
+</body>
+</html>

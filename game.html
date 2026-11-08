@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#080d12">
+  <title>Network Infiltration | OscarCyber</title>
+  <link rel="stylesheet" href="arena/game.css">
+</head>
+<body>
+
+<nav class="oc-site-nav">
+  <a class="oc-brand" href="index.html">⌘ OSCAR<span>CYBER</span></a>
+  <div class="oc-links">
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="games.html">Games</a>
+    <a href="game.html">Play Game</a>
+  </div>
+</nav>
+<style>
+.oc-site-nav {
+  position:relative;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  padding:17px 5%;
+  background:#080d12;
+  border-bottom:1px solid rgba(57,255,20,.2);
+  font-family:Arial,sans-serif;
+}
+.oc-site-nav a {
+  color:#dce9df;
+  text-decoration:none;
+  font-size:12px;
+  transition:.2s;
+}
+.oc-site-nav a:hover { color:#39ff14; }
+.oc-site-nav .oc-brand {
+  color:white;
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:16px;
+}
+.oc-site-nav .oc-brand span { color:#39ff14; }
+.oc-links { display:flex;gap:20px;flex-wrap:wrap; }
+@media(max-width:520px) {
+  .oc-site-nav { align-items:flex-start;flex-direction:column; }
+  .oc-links { gap:14px; }
+}
+</style>
+
+  <header>
+    <a href="index.html">⌘ OSCAR<span>CYBER</span></a>
+    <div>NETWORK INFILTRATION <span class="live">● LIVE</span></div>
+    <a href="index.html" class="back">EXIT GAME</a>
+  </header>
+
+  <main>
+    <div class="hud">
+      <div>MISSION <strong>01</strong><small>NETWORK INFILTRATION</small></div>
+      <div>ACCESS KEYS <strong id="keys">0 / 3</strong></div>
+      <div>TIME <strong id="timer">00:00</strong></div>
+      <div>XP <strong id="xp">0</strong></div>
+    </div>
+
+    <div class="game-wrap">
+      <canvas id="game" width="960" height="600"></canvas>
+      <div id="message" class="message">
+        <h1>NETWORK INFILTRATION</h1>
+        <p>Collect all 3 access keys. Avoid security drones. Activate the server and escape.</p>
+        <button id="start">START MISSION</button>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <span>WASD / ARROWS — MOVE</span>
+      <span>SPACE / ACTION — INTERACT</span>
+      <span>COLLECT 3 KEYS TO UNLOCK THE SERVER</span>
+    </div>
+
+    <div class="mobile-controls">
+      <div class="dpad">
+        <button data-dir="up">▲</button>
+        <div>
+          <button data-dir="left">◀</button>
+          <button data-dir="down">▼</button>
+          <button data-dir="right">▶</button>
+        </div>
+      </div>
+      <button id="action" class="action">ACTION</button>
+    </div>
+  </main>
+
+  <script src="arena/game.js"></script>
+
+<script>
+(() => {
+  const briefingToggle = document.getElementById("briefingToggle");
+  const briefingPanel = document.getElementById("briefingPanel");
+  const soundToggle = document.getElementById("soundToggle");
+  const keyDisplay = document.getElementById("keys");
+
+  if (!briefingToggle || !briefingPanel || !soundToggle || !keyDisplay) return;
+
+  briefingToggle.addEventListener("click", () => {
+    briefingPanel.classList.toggle("open");
+    briefingToggle.textContent = briefingPanel.classList.contains("open")
+      ? "MISSION BRIEFING ⌃" : "MISSION BRIEFING ⌄";
+  });
+
+  let soundOn = false;
+  let audioContext;
+
+  soundToggle.addEventListener("click", async () => {
+    soundOn = !soundOn;
+    soundToggle.textContent = soundOn ? "SOUND: ON" : "SOUND: OFF";
+
+    if (soundOn) {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (Audio) {
+        audioContext ||= new Audio();
+        await audioContext.resume();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.frequency.value = 520;
+        gain.gain.value = 0.035;
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.08);
+      }
+    }
+  });
+
+  function updateKeyProgress() {
+    const match = keyDisplay.textContent.match(/(\d+)\s*\/\s*3/);
+    const collected = match ? Math.min(3, Number(match[1])) : 0;
+    const percent = Math.round(collected / 3 * 100);
+    document.getElementById("keyProgress").style.width = percent + "%";
+    document.getElementById("keyPercent").textContent = percent + "%";
+  }
+
+  new MutationObserver(updateKeyProgress).observe(keyDisplay, {
+    childList:true, characterData:true, subtree:true
+  });
+  updateKeyProgress();
+})();
+</script>
+
+</body>
+</html>
