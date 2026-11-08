@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d0a">
+<title>Security Check | OscarCyber</title>
+<style>
+:root {
+  --bg:#080d0a;--panel:#101914;--line:#26362b;
+  --green:#39ff14;--text:#f2f7f2;--muted:#9aa99d;
+  --red:#ff6262;--yellow:#ffd166;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+a{color:var(--green);text-decoration:none}
+header{border-bottom:1px solid var(--line);padding:20px 6%;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;letter-spacing:2px;color:white}
+.brand span{color:var(--green)}
+nav a{margin-left:22px;color:var(--muted);font-size:14px}
+.container{max-width:1050px;margin:auto;padding:55px 22px}
+.eyebrow{color:var(--green);font-size:12px;letter-spacing:3px;font-weight:bold}
+h1{font-size:clamp(36px,6vw,60px);margin:12px 0}
+h1 span{color:var(--green)}
+.subtitle{color:var(--muted);line-height:1.7;max-width:650px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:38px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
+.card h2{margin-top:0}
+.card p{color:var(--muted);line-height:1.6;font-size:14px}
+label{display:block;font-size:13px;margin:20px 0 8px}
+input{width:100%;padding:15px;background:#080d0a;border:1px solid var(--line);border-radius:9px;color:white;font-size:15px;outline:none}
+input:focus{border-color:var(--green)}
+button,.button{display:inline-block;border:0;border-radius:9px;background:var(--green);color:#071006;font-weight:800;padding:14px 18px;cursor:pointer;margin-top:14px;font-size:14px}
+button:disabled{opacity:.5;cursor:wait}
+.secondary{background:transparent;color:var(--green);border:1px solid var(--green)}
+.result{margin-top:18px;padding:15px;border-radius:10px;background:#080d0a;border:1px solid var(--line);line-height:1.6;font-size:14px;overflow-wrap:anywhere}
+.hidden{display:none}
+.meter{height:8px;background:#26362b;border-radius:20px;margin-top:15px;overflow:hidden}
+.meter div{height:100%;width:0;background:var(--green);transition:width .25s}
+.check{color:var(--green)}
+.warning{color:var(--yellow)}
+.danger{color:var(--red)}
+.privacy{margin-top:25px;border:1px solid var(--line);padding:18px;border-radius:12px;color:var(--muted);font-size:13px;line-height:1.7}
+footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:25px;font-size:12px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}header{padding:18px 5%}nav a{margin-left:10px}.container{padding-top:38px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="index.html">OSCAR<span>CYBER</span></a>
+  <nav><a href="index.html">Home</a><a href="projects.html">Projects</a></nav>
+</header>
+
+<main class="container">
+  <div class="eyebrow">PUBLIC SECURITY TOOLS / 001</div>
+  <h1>Check your <span>security.</span></h1>
+  <p class="subtitle">Check a password against known breach data or learn how to check whether an email address has appeared in known data breaches.</p>
+
+  <div class="grid">
+    <section class="card">
+      <div class="eyebrow">TOOL 01</div>
+      <h2>Password Breach Checker</h2>
+      <p>Analyze password strength and check whether its hash appears in the Pwned Passwords database.</p>
+
+      <label for="password">Password to check</label>
+      <input id="password" type="password" autocomplete="off" placeholder="Enter a password">
+      <button class="secondary" id="toggle" type="button">Show password</button>
+      <button id="checkPassword" type="button">Analyze password</button>
+
+      <div id="passwordResult" class="result hidden" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <div class="eyebrow">TOOL 02</div>
+      <h2>Email Breach Check</h2>
+      <p>Use the official Have I Been Pwned service to check whether an email address appears in known breaches.</p>
+
+      <label for="email">Your email address</label>
+      <input id="email" type="email" autocomplete="off" placeholder="you@example.com">
+      <button id="emailCheck" type="button">Open official email checker</button>
+      <div id="emailResult" class="result hidden" aria-live="polite"></div>
+      <p style="font-size:12px">This button opens the official service. This website does not collect or transmit the email you type.</p>
+    </section>
+  </div>
+
+  <div class="privacy">
+    <strong style="color:var(--green)">PRIVACY FIRST</strong><br>
+    Password analysis happens in your browser. For the breach lookup, only the first five characters of the SHA-1 hash are sent to the Pwned Passwords range API; the complete password and full hash are not sent. Do not enter a password you currently use. This checker is a security aid, not a guarantee that a password is safe.
+  </div>
+</main>
+
+<footer>© 2026 Oscar Origene · OSCARCYBER · THINK. BUILD. SECURE.</footer>
+
+<script>
+const passwordInput = document.getElementById("password");
+const resultBox = document.getElementById("passwordResult");
+const checkButton = document.getElementById("checkPassword");
+
+document.getElementById("toggle").addEventListener("click", () => {
+  const hidden = passwordInput.type === "password";
+  passwordInput.type = hidden ? "text" : "password";
+  document.getElementById("toggle").textContent = hidden ? "Hide password" : "Show password";
+});
+
+function strengthCheck(password) {
+  let score = 0;
+  const tests = [
+    [password.length >= 12, "At least 12 characters"],
+    [password.length >= 16, "At least 16 characters"],
+    [/[a-z]/.test(password) && /[A-Z]/.test(password), "Uppercase and lowercase letters"],
+    [/\d/.test(password), "Numbers"],
+    [/[^A-Za-z0-9]/.test(password), "Symbols"]
+  ];
+  tests.forEach(([passed]) => { if (passed) score++; });
+  const common = /password|qwerty|letmein|welcome|admin|123456|abc123/i.test(password);
+  if (common) score = Math.min(score, 1);
+  return {score, tests, common};
+}
+
+async function sha1(text) {
+  const bytes = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-1", bytes);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("").toUpperCase();
+}
+
+checkButton.addEventListener("click", async () => {
+  const password = passwordInput.value;
+  if (!password) {
+    resultBox.classList.remove("hidden");
+    resultBox.textContent = "Enter a password to analyze.";
+    return;
+  }
+
+  if (!window.crypto?.subtle) {
+    resultBox.classList.remove("hidden");
+    resultBox.textContent = "Secure browser cryptography is unavailable. Open this page over HTTPS.";
+    return;
+  }
+
+  checkButton.disabled = true;
+  checkButton.textContent = "Checking...";
+  resultBox.classList.remove("hidden");
+  resultBox.textContent = "Analyzing locally and checking the breach database...";
+
+  try {
+    const strength = strengthCheck(password);
+    const hash = await sha1(password);
+    const prefix = hash.slice(0, 5);
+    const suffix = hash.slice(5);
+
+    const response = await fetch(
+      "https://api.pwnedpasswords.com/range/" + prefix,
+      {headers: {"Add-Padding": "true"}}
+    );
+
+    if (!response.ok) throw new Error("The breach service is temporarily unavailable.");
+
+    const body = await response.text();
+    const match = body.split(/\r?\n/).find(line =>
+      line.split(":")[0].trim().toUpperCase() === suffix
+    );
+    const count = match ? Number(match.split(":")[1].trim()) : 0;
+
+    let strengthLabel = strength.score >= 4 ? "Stronger pattern" :
+      strength.score >= 2 ? "Needs improvement" : "Weak pattern";
+
+    resultBox.innerHTML = `
+      <strong>Password analysis</strong><br>
+      <span class="${strength.score >= 4 ? "check" : "warning"}">${strengthLabel}</span>
+      <div class="meter"><div style="width:${strength.score / 5 * 100}%"></div></div>
+      <p>${strength.score}/5 strength checks passed.</p>
+      <strong>Breach database result</strong><br>
+      ${count > 0
+        ? `<span class="danger">Found ${count.toLocaleString()} times in known breach data.</span>`
+        : `<span class="check">No match found in the Pwned Passwords database.</span>`}
+      <p>${strength.common ? '<span class="danger">This password contains a commonly used word or pattern.</span><br>' : ""}
+      ${strength.tests.filter(t => !t[0]).map(t => "• Consider adding: " + t[1]).join("<br>") || "• Keep using unique passwords for every account."}</p>
+      <small>Database result is not a guarantee of safety. A password can be exposed in ways this database does not know about.</small>
+    `;
+  } catch (error) {
+    resultBox.textContent = "Could not complete the breach check: " + error.message + " Try again later.";
+  } finally {
+    checkButton.disabled = false;
+    checkButton.textContent = "Analyze password";
+  }
+});
+
+document.getElementById("emailCheck").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  const box = document.getElementById("emailResult");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    box.classList.remove("hidden");
+    box.textContent = "Enter a valid-looking email address first.";
+    return;
+  }
+  box.classList.remove("hidden");
+  box.textContent = "For privacy, this page does not send your email anywhere. The official checker will open in a new tab; enter your address there if you choose.";
+  window.open("https://haveibeenpwned.com/", "_blank", "noopener,noreferrer");
+});
+</script>
+</body>
+</html>
